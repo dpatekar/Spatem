@@ -4,8 +4,8 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="NSwag.MSBuild" Version="12.0.13">
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="NSwag.MSBuild" Version="12.2.5">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
