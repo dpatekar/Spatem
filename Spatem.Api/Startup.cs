@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,14 @@ namespace Spatem.Api
                 .AddIdentityDataContext()
                 .AddDefaultTokenProviders();
 
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
+                .AddInMemoryPersistedGrants()
+                .AddInMemoryIdentityResources(IdConfig.GetIdentityResources())
+                .AddInMemoryApiResources(IdConfig.GetApiResources())
+                .AddInMemoryClients(IdConfig.GetClients())
+                .AddAspNetIdentity<ApplicationUser>();
+
             services.AddSwaggerDocument(settings =>
             {
                 settings.PostProcess = document =>
@@ -38,6 +47,20 @@ namespace Spatem.Api
                     document.Info.Title = "Spatem API";
                     document.Info.Description = "REST API";
                 };
+            });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.Authority = "http://localhost:5000/";
+
+                options.Audience = "api1";
+
+                options.RequireHttpsMetadata = false;
             });
         }
 
@@ -51,7 +74,8 @@ namespace Spatem.Api
                 app.UseSwagger();
                 app.UseSwaggerUi3();
             }
-
+            app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
