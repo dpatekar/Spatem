@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Startup.cs~RF5713d4a.TMP" />
+    <None Include="nswag.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -14,13 +14,24 @@
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="NSwag.AspNetCore" Version="12.2.5" />
-    <PackageReference Include="NSwag.CodeGeneration.TypeScript" Version="12.2.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="NSwag.MSBuild" Version="12.2.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>   
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Spatem.Core\Spatem.Core.csproj" />
     <ProjectReference Include="..\Spatem.Data.Ef\Spatem.Data.Ef.csproj" />
   </ItemGroup>
-
+    
+  <Target Name="NSwag" AfterTargets="Build">
+    <Copy SourceFiles="@(ReferencePath)" DestinationFolder="$(OutDir)References" />
+    <Exec Command="$(NSwagExe_Core22) run nswag.json /variables:Configuration=$(Configuration),OutDir=$(OutDir)" />
+    <RemoveDir Directories="$(OutDir)References" />
+  </Target>
+  
 </Project>
