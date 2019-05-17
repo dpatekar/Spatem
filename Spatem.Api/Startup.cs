@@ -4,10 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NSwag.AspNetCore;
 using Spatem.Core.Identity;
 using Spatem.Data.Ef;
-using NJsonSchema;
-using NSwag.AspNetCore;
 
 namespace Spatem.Api
 {
