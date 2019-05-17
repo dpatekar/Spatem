@@ -32,7 +32,7 @@ namespace Spatem.Api
                 // resource owner password grant client
                 new Client
                 {
-                    ClientId = "ro.angular",
+                    ClientId = "vue",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
                     ClientSecrets =

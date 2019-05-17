@@ -57,9 +57,7 @@ namespace Spatem.Api
             .AddJwtBearer(options =>
             {
                 options.Authority = "http://localhost:5000/";
-
                 options.Audience = "api1";
-
                 options.RequireHttpsMetadata = false;
             });
         }
