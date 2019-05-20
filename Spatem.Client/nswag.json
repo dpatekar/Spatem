@@ -3,12 +3,12 @@
   "defaultVariables": null,
   "swaggerGenerator": {
     "aspNetCoreToSwagger": {
-      "project": "Spatem.Api.csproj",
+      "project": "../Spatem.Api/Spatem.Api.csproj",
       "msBuildProjectExtensionsPath": null,
       "configuration": null,
       "runtime": null,
       "targetFramework": null,
-      "noBuild": true,
+      "noBuild": false,
       "verbose": true,
       "workingDirectory": null,
       "requireParametersWithoutDefault": false,
@@ -106,7 +106,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../Spatem.Client/src/services/repository.ts"
+      "output": "src/services/repository.ts"
     }
   }
 }
