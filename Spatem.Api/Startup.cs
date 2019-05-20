@@ -47,22 +47,13 @@ namespace Spatem.Api
                 };
             });
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.Authority = "http://localhost:5000/";
-                options.Audience = "api1";
-                options.RequireHttpsMetadata = false;
-            });
+            services.AddAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseStaticFiles();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -72,7 +63,7 @@ namespace Spatem.Api
             }
             app.UseIdentityServer();
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
