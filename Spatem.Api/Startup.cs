@@ -33,10 +33,8 @@ namespace Spatem.Api
 
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
-                .AddInMemoryPersistedGrants()
-                .AddInMemoryIdentityResources(IdConfig.GetIdentityResources())
-                .AddInMemoryApiResources(IdConfig.GetApiResources())
-                .AddInMemoryClients(IdConfig.GetClients())
+                .AddOperationalStore(Configuration.GetConnectionString("SpatemConnection"))
+                .AddConfigurationStore(Configuration.GetConnectionString("SpatemConnection"))
                 .AddAspNetIdentity<ApplicationUser>();
 
             services.AddSwaggerDocument(settings =>

@@ -1,25 +1,36 @@
-﻿Write-Host 'Listing existing migrations...'
+﻿$contexts = @(
+			@('ApplicationDbContext','Main App DBContext','ApplicationData'),
+			@('ConfigurationDbContext','IS4 Configuration Store','ISData/Configuration'),
+			@('PersistedGrantDbContext','IS4 Operational Store','ISData/Operational')
+			)
+
+$contextChoices = @($i=0;$contexts | %{New-Object System.Management.Automation.Host.ChoiceDescription "&$i`b$($_[0])", $_[1]; $i++})
+$contextDecision = $Host.UI.PromptForChoice('Choose DB context','Migration is DBContext specific', $contextChoices, 0)
+$context = $contexts[$contextDecision][0]
+$outDir = $contexts[$contextDecision][2]
+
+Write-Host 'Listing existing migrations...'
 
 $StartupProject = '../Spatem.Api'
-dotnet ef --startup-project $StartupProject migrations list
+dotnet ef --startup-project $StartupProject migrations list --context $context
 
-$choices = New-Object Collections.ObjectModel.Collection[Management.Automation.Host.ChoiceDescription]
-$choices.Add((New-Object Management.Automation.Host.ChoiceDescription -ArgumentList '&Yes'))
-$choices.Add((New-Object Management.Automation.Host.ChoiceDescription -ArgumentList '&No'))
+$confirm = New-Object Collections.ObjectModel.Collection[Management.Automation.Host.ChoiceDescription]
+$confirm.Add((New-Object Management.Automation.Host.ChoiceDescription -ArgumentList '&Yes'))
+$confirm.Add((New-Object Management.Automation.Host.ChoiceDescription -ArgumentList '&No'))
 
-$decision = $Host.UI.PromptForChoice('Generating new migration...','Are you sure you want to proceed?', $choices, 1)
+$decision = $Host.UI.PromptForChoice('Generating new migration...','Are you sure you want to proceed?', $confirm, 1)
 if ($decision -eq 0) {
   Write-Host 'Confirmed'
   $MigrationName = Read-Host -Prompt 'Enter a name for new migration'
-  dotnet ef --startup-project $StartupProject migrations add $MigrationName
+  dotnet ef --startup-project $StartupProject migrations add $MigrationName --context $context --output-dir Migrations/$outDir
 } else {
   Write-Host 'Cancelled'
 }
 
-$decision = $Host.UI.PromptForChoice('Applying latest migration...','Are you sure you want to proceed?', $choices, 1)
+$decision = $Host.UI.PromptForChoice('Applying latest migration...','Are you sure you want to proceed?', $confirm, 1)
 if ($decision -eq 0) {
   Write-Host 'Confirmed'
-  dotnet ef --startup-project $StartupProject database update
+  dotnet ef --startup-project $StartupProject database update --context $context
 } else {
   Write-Host 'Cancelled'
 }
