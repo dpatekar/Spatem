@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "nswag": "node_modules/.bin/nswag run nswag.json version /runtime:NetCore22"
-    "nswag-identity": "node_modules/.bin/nswag run nswag-identity.json version /runtime:NetCore22"
+    "nswag": "node_modules/.bin/nswag run /runtime:NetCore22"
   },
   "author": "",
   "license": "ISC",
