@@ -45,6 +45,16 @@ namespace Spatem.Identity
                             sqlServerOptions => sqlServerOptions.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
                 })
                 .AddAspNetIdentity<ApplicationUser>();
+
+            services.AddSwaggerDocument(settings =>
+            {
+                settings.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "Spatem API";
+                    document.Info.Description = "REST API";
+                };
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -53,6 +63,9 @@ namespace Spatem.Identity
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger();
+                app.UseSwaggerUi3();
             }
             app.UseIdentityServer();
             app.UseMvcWithDefaultRoute();
