@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSwag.AspNetCore;
-using Spatem.Core.Identity;
 using Spatem.Data.Ef;
 
 namespace Spatem.Api
@@ -20,22 +18,19 @@ namespace Spatem.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Authority = "http://localhost:5001";
+                options.Audience = "api1";
+                options.RequireHttpsMetadata = false;
+            });
+
             services.AddDataContext(Configuration.GetConnectionString("SpatemConnection"));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddIdentityDataContext()
-                .AddDefaultTokenProviders();
-
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential()
-                .AddOperationalStore(Configuration.GetConnectionString("SpatemConnection"))
-                .AddConfigurationStore(Configuration.GetConnectionString("SpatemConnection"))
-                .AddAspNetIdentity<ApplicationUser>();
 
             services.AddSwaggerDocument(settings =>
             {
@@ -46,14 +41,10 @@ namespace Spatem.Api
                     document.Info.Description = "REST API";
                 };
             });
-
-            services.AddAuthentication();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseStaticFiles();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -61,9 +52,8 @@ namespace Spatem.Api
                 app.UseSwagger();
                 app.UseSwaggerUi3();
             }
-            app.UseIdentityServer();
             app.UseAuthentication();
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc();
         }
     }
 }

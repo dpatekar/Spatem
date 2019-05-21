@@ -18,25 +18,5 @@ namespace Spatem.Data.Ef
         {
             return identityBuilder.AddEntityFrameworkStores<ApplicationDbContext>();
         }
-
-        public static IIdentityServerBuilder AddConfigurationStore(this IIdentityServerBuilder identityServerBuilder, string connectionString)
-        {
-            return identityServerBuilder.AddConfigurationStore(options =>
-            {
-                options.ConfigureDbContext = builder =>
-                    builder.UseSqlServer(connectionString,
-                        sqlServerOptions => sqlServerOptions.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
-            });
-        }
-
-        public static IIdentityServerBuilder AddOperationalStore(this IIdentityServerBuilder identityServerBuilder, string connectionString)
-        {
-            return identityServerBuilder.AddOperationalStore(options =>
-            {
-                options.ConfigureDbContext = builder =>
-                    builder.UseSqlServer(connectionString,
-                        sqlServerOptions => sqlServerOptions.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
-            });
-        }
     }
 }

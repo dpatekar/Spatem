@@ -1,13 +1,5 @@
-﻿$contexts = @(
-			@('ApplicationDbContext','Main App DBContext','ApplicationData'),
-			@('ConfigurationDbContext','IS4 Configuration Store','ISData/Configuration'),
-			@('PersistedGrantDbContext','IS4 Operational Store','ISData/Operational')
-			)
-
-$contextChoices = @($i=0;$contexts | %{New-Object System.Management.Automation.Host.ChoiceDescription "&$i`b$($_[0])", $_[1]; $i++})
-$contextDecision = $Host.UI.PromptForChoice('Choose DB context','Migration is DBContext specific', $contextChoices, 0)
-$context = $contexts[$contextDecision][0]
-$outDir = $contexts[$contextDecision][2]
+﻿$context = 'ApplicationDbContext'
+$outDir = 'ApplicationData'
 
 Write-Host 'Listing existing migrations...'
 
