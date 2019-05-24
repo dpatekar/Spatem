@@ -25,7 +25,7 @@ namespace Spatem.Api
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.Authority = "http://localhost:5001";
+                options.Authority = "http://localhost:8080/auth/realms/master";
                 options.Audience = "api1";
                 options.RequireHttpsMetadata = false;
             });

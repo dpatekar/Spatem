@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Spatem.Core.Identity;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Spatem.Data.Ef
 {
-    internal class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    internal class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
