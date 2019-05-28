@@ -21,7 +21,7 @@
   "actionTokenGeneratedByAdminLifespan": 43200,
   "actionTokenGeneratedByUserLifespan": 300,
   "enabled": true,
-  "sslRequired": "external",
+  "sslRequired": "none",
   "registrationAllowed": true,
   "registrationEmailAsUsername": true,
   "rememberMe": true,
@@ -408,7 +408,7 @@
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "ee37bb99-37c5-4577-b4e8-411574567f5b",
       "redirectUris": [
         "*"
       ],
@@ -500,7 +500,7 @@
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "dc3a0257-3114-4ce5-aa6a-3b11f2b1aa58",
       "redirectUris": [
         "*"
       ],
