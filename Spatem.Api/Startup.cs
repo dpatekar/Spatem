@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,12 +12,14 @@ namespace Spatem.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -26,8 +29,8 @@ namespace Spatem.Api
             .AddJwtBearer(options =>
             {
                 options.Authority = "http://localhost:8080/auth/realms/master";
-                options.Audience = "api1";
-                options.RequireHttpsMetadata = false;
+                options.Audience = "spatem-api";
+                options.RequireHttpsMetadata = !Environment.IsDevelopment();
             });
 
             services.AddDataContext(Configuration.GetConnectionString("SpatemConnection"));
